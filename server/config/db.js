@@ -12,6 +12,6 @@ mongoose.connection.on('connected', function() {
 	console.log('database connected');
 })
 
-mongoose.connection.on('error,' function(err) {
+mongoose.connection.on('error', function(err) {
 	console.error(err);
-})
+});

@@ -16,6 +16,17 @@ module.exports = {
 
 	},
 	login: function(req, res) {
-		User.find({ email: req.body.email})
-	},
+		User.findOne({ email: req.body.email })
+		.then(function(user) {
+			return user.verifyPassword(req.body.password)
+			.then(function() {
+				req.session.userID = user._id;
+				res.json({success: true});
+			})
+		})
+		.catch(function(err){
+			res.status(500).json(err);
+		});
+	}
+
 }

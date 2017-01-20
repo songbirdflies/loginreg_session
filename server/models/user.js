@@ -1,35 +1,33 @@
 var mongoose = require('mongoose');
-var bcrypt = reqiure('bcryptjs-as-promised');
+var bcrypt = require('bcryptjs');
 
 var UserSchema = new mongoose.Schema(
 	{
-		first_name: {
+		firstname: {
 			type: String,
 			minlength: 2,
 			required: true,
 			trim: true
-		}
-		last_name: {
+		},
+		lastname: {
 			type: String,
 			minlength: 2,
 			required: true,
 			trim: true
-		}
-		emal: {
+		},
+		email: {
 			type: String,
 			minlength: 5,
 			unique: true,
 			required: true,
 			trim: true
-		}
+		},
 		password: {
 			type: String,
 			required: true,
 			trim: true
 		}
-
 	}
-
 );
 
 UserSchema.pre('save', function(next) {
@@ -53,4 +51,6 @@ UserSchema.pre('save', function(next) {
 UserSchema.methods.verifyPassword = function(password) {
 	//password data comes from req.body
 	return bcrypt.compare(password, this.password);
-}
+};
+
+module.exports = mongoose.model('User', UserSchema);

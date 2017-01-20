@@ -1,12 +1,15 @@
 var express = require('express'), 
 app = express(),
 path = require('path'),
+port = 8000;
 bodyParser = require('body-parser'), 
 session = require('express-session');
 
 app.use(express.static(path.join(__dirname, 'client')))
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+//console.log(session);
 
 var sessionInfo = {
 	secret: "CookieMonster",
@@ -21,7 +24,13 @@ var sessionInfo = {
 }
 app.use(session(sessionInfo));
 
-app.listen(8000, function(){ 
+//MongoDB
+require('./server/config/db');
+
+//Routes
+require('./server/config/routes')(app);
+
+app.listen(port, function(){ 
 	console.log('listening on 8000')
 });
 
